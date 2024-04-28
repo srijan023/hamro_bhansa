@@ -5,10 +5,8 @@ import SectionHeader from "@/components/layout/SectionHeaders";
 import { FaFacebook, FaSquareInstagram, FaSquareTwitter } from "react-icons/fa6";
 
 export default function Home() {
-  const year = new Date().getFullYear();
   return (
     <>
-      <Header />
       <Hero />
       <HomeMenu />
       <section >
@@ -38,9 +36,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <footer className="text-center text-gray-500 mt-14 text-sm font-semibold">
-        <p>&copy; {year} All rights reserved</p>
-      </footer>
     </>
   );
 }
