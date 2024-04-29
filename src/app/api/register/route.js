@@ -5,8 +5,16 @@ export async function POST (req) {
 // npm add mongoose required
   const body = await req.json();
 
-  console.log("Here")
+  /*
+    1. Destructure the respose body 
+    2. Validate each iteam
+    3. Check for injections
+    4. Pass it to the database
+  */
+
+  // validation from the schema
   mongoose.connect(process.env.CONNECTION_STRING);
   const createdUser = await User.create(body);
+  console.log(createdUser);
   return Response.json(createdUser);
 }
