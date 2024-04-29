@@ -12,6 +12,7 @@ import clientPromise from "@/libs/mongoConnect";
 export const authOpts = {
   // required to keep the session on the database so that login is not required after each reload
   // adapter: MongoDBAdapter(clientPromise),
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')

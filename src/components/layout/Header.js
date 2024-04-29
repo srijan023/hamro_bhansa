@@ -5,7 +5,7 @@ import { FaUser } from "react-icons/fa6";
 export default function Header() {
   const session = useSession();
   const status = session.status;
-  console.log(session);
+
   return (
     <header className="flex items-center justify-between">
       <Link className="text-primary font-semibold text-2xl" href="">
