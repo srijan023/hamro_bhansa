@@ -28,6 +28,7 @@ export const authOpts = {
           placeholder: "johndoe@example.com",
         },
         password: { label: "Password", type: "password" },
+        image: { type: "text" },
       },
       async authorize(credentials, req) {
         const { email, password } = credentials;
@@ -45,6 +46,29 @@ export const authOpts = {
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token }) {
+      // getting the user from the database to repopulate the session values
+      const dbUser = await User.findOne({ email: token.email });
+      if (dbUser?.fullName) {
+        token.fullName = dbUser.fullName;
+      }
+      if (dbUser?.image) {
+        token.image = dbUser.image;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token?.fullName) {
+        session.fullName = token.fullName;
+      }
+
+      if (token?.image) {
+        session.image = token.image;
+      }
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(authOpts);

@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 const { Schema, models, model } = require("mongoose");
 
 const UserSchema = new Schema({
-  email: { 
+  email: {
     type: String,
     required: true,
     unique: true,
@@ -15,15 +15,15 @@ const UserSchema = new Schema({
     minLength: 5,
   },
 
-  confPassword:{
+  confPassword: {
     type: String,
-    validate:{
-      validator: function(val){
+    validate: {
+      validator: function (val) {
         return val === this.password;
       }
     },
   },
-  
+
   fullName: {
     type: String,
     required: true,
@@ -33,12 +33,16 @@ const UserSchema = new Schema({
     type: String,
   },
 
+  image: {
+    type: String,
+  },
+
   phone: {
     type: String,
     minLength: 10,
     maxLength: 10,
-    validate:{
-      validator: function(val){
+    validate: {
+      validator: function (val) {
         // checks if the phone number has 10 numeric digits
         return /^\d{10}$/.test(val);
       },

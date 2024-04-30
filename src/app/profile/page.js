@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -9,6 +10,7 @@ export default function Profile() {
   const session = useSession();
   const [userName, setUserName] = useState("");
   const [saved, setSaved] = useState(false);
+  const [userImage, setUserImage] = useState("/user.png");
   const [isSaving, setIsSaving] = useState(false);
   const { status } = session;
 
@@ -26,8 +28,12 @@ export default function Profile() {
   // sesssion is changed later and therefore we need to handle that change
   // if we initialize the userName based on the value of the session, it is initialized to null initially and later when the value comes to the session it is not rechanged.
   useEffect(() => {
+    console.log(session);
     if (status === "authenticated") {
       setUserName(session?.data?.user?.name);
+      if (session?.data?.image) {
+        setUserImage(session.data.image);
+      }
     }
   }, [session, status, session?.data?.user?.name]);
 
@@ -38,7 +44,7 @@ export default function Profile() {
     const res = await fetch("/api/profile", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ fullName: userName }),
+      body: JSON.stringify({ fullName: userName, image: userImage }),
     });
     if (res.ok) {
       setSaved(true);
@@ -54,8 +60,6 @@ export default function Profile() {
   if (status === "unauthenticated") {
     return redirect("/login");
   }
-
-  const userImage = session.data.user.image || "/user.png";
 
   return (
     <section>
@@ -77,21 +81,35 @@ export default function Profile() {
             <div className="">
               <div className="relative flex flex-col gap-2">
                 <Image
-                  className="mx-auto w-full h-full"
+                  className="mx-auto w-full h-full rounded-full"
                   src={userImage}
                   width={100}
                   height={100}
                   alt="user profile"
                   id="image"
                 />
-                <label className="rounded-full bg-primary py-2 px-4 text-gray-100 cursor-pointer">
-                  <input
-                    type="file"
-                    className="hidden"
-                    onChange={handleFileChange}
-                  />
-                  <span>Upload Image</span>
-                </label>
+                <CldUploadWidget
+                  // signed upload donot need upload preset
+                  signatureEndpoint={"/api/signImage"}
+                  onSuccess={(result, { widget }) => {
+                    setUserImage(result?.info.url);
+                    widget.close();
+                  }}
+                >
+                  {({ open }) => {
+                    function handleOnClick() {
+                      open(); // open widget
+                    }
+                    return (
+                      <button
+                        className="rounded-full bg-primary py-2 px-4 text-gray-100 cursor-pointer"
+                        onClick={handleOnClick}
+                      >
+                        Upload Image
+                      </button>
+                    );
+                  }}
+                </CldUploadWidget>
               </div>
             </div>
             <form

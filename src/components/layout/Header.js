@@ -21,9 +21,15 @@ export default function Header() {
         {status === "authenticated" ? (
           <>
             <Link href={"/profile"}>
-              <div className="border-1 hover:scale-105 rounded-full bg-primary border-primary px-3 py-3">
-                <FaUser color="white" />
-              </div>
+              {session.data.fullName ? (
+                <p className="text-md text-gray-500">
+                  Hello, {session.data.fullName.split(" ")[0]}
+                </p>
+              ) : (
+                <div className="border-1 hover:scale-105 rounded-full bg-primary border-primary px-3 py-3">
+                  <FaUser color="white" />
+                </div>
+              )}
             </Link>
 
             <button
