@@ -28,7 +28,6 @@ export const authOpts = {
           placeholder: "johndoe@example.com",
         },
         password: { label: "Password", type: "password" },
-        image: { type: "text" },
       },
       async authorize(credentials, req) {
         const { email, password } = credentials;
@@ -47,14 +46,44 @@ export const authOpts = {
     }),
   ],
   callbacks: {
-    async jwt({ token }) {
-      // getting the user from the database to repopulate the session values
-      const dbUser = await User.findOne({ email: token.email });
-      if (dbUser?.fullName) {
-        token.fullName = dbUser.fullName;
+    async jwt({ token, user, session, trigger }) {
+      // if I directly pass in user with the token, the next time I reload there is no user and data is lost in session
+      if (user?.fullName) {
+        token.fullName = user.fullName;
       }
-      if (dbUser?.image) {
-        token.image = dbUser.image;
+
+      if (user?.image) {
+        token.image = user.image;
+      }
+
+      if (user?.phone) {
+        token.phone = user.phone;
+      }
+
+      if (user?.postalCode) {
+        token.postalCode = user.postalCode;
+      }
+
+      if (user?.city) {
+        token.city = user.city;
+      }
+
+      if (user?.country) {
+        token.country = user.country;
+      }
+
+      if (user?.street) {
+        token.street = user.street;
+      }
+
+      if (trigger === "update" && session) {
+        token.image = session.image;
+        token.phone = session.phone;
+        token.country = session.country;
+        token.city = session.city;
+        token.postalCode = session.postalCode;
+        token.fullName = session.fullName;
+        token.street = session.street;
       }
       return token;
     },
@@ -65,6 +94,26 @@ export const authOpts = {
 
       if (token?.image) {
         session.image = token.image;
+      }
+
+      if (token?.phone) {
+        session.phone = token.phone;
+      }
+
+      if (token?.postalCode) {
+        session.postalCode = token.postalCode;
+      }
+
+      if (token?.city) {
+        session.city = token.city;
+      }
+
+      if (token?.country) {
+        session.country = token.country;
+      }
+
+      if (token?.street) {
+        session.street = token.street;
       }
       return session;
     },

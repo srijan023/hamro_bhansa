@@ -1,6 +1,6 @@
 export default function FormElement({
   type = "text",
-  label,
+  label = "",
   disabled = false,
   placeholder = "",
   idName,
@@ -9,7 +9,7 @@ export default function FormElement({
 }) {
   return (
     <div className="flex flex-col gap-2 text-gray-500">
-      <label htmlFor={idName} className="text-primary ml-2 ">
+      <label htmlFor={idName} className={`text-primary ml-2 ${label.length === 0 ? "hidden" : ""}`} >
         {label}
       </label>
       <input

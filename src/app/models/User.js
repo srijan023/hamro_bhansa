@@ -29,9 +29,11 @@ const UserSchema = new Schema({
     required: true,
   },
 
-  address: {
-    type: String,
-  },
+  // Address data
+  street : {type: String},
+  city: {type: String},
+  country: {type: String},
+  postalCode: {type: String},
 
   image: {
     type: String,
@@ -49,7 +51,8 @@ const UserSchema = new Schema({
     },
     required: true,
     unique: true,
-  }
+  },
+
 }, { timestamps: true });
 
 // after the validation is done
