@@ -1,6 +1,7 @@
 "use client";
 
 import FormElement from "@/components/form/FormElement";
+import UserTabs from "@/components/layout/UserTabs";
 import { useSession } from "next-auth/react";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
@@ -18,6 +19,15 @@ export default function Profile() {
   const [country, setCountry] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const checkAdminFunc = async () => {
+    const res = await fetch("/api/profile");
+    const data = await res.json();
+    setIsAdmin(data.isAdmin);
+  };
+
+  checkAdminFunc();
 
   async function handleFileChange(event) {
     const files = event.target.files;
@@ -106,7 +116,7 @@ export default function Profile() {
   return (
     <section>
       <div className="mt-8">
-        <h1 className="text-center text-primary text-4xl mb-4">Profile</h1>
+        <UserTabs isAdmin={isAdmin} />
         <div className="max-w-2xl mx-auto">
           <div className="flex gap-2 items-center">
             <div className="">

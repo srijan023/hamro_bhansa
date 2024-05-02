@@ -10,7 +10,6 @@ export default function Header() {
   const [fullName, setFullName] = useState("");
 
   useEffect(() => {
-    console.log("From header", session);
     if (status === "authenticated") {
       setFullName(session?.data?.fullName);
     }
