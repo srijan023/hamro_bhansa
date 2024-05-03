@@ -21,11 +21,6 @@ export default function Categories() {
     setIsAdmin(data.isAdmin);
   };
 
-  checkAdminFunc();
-  if (!isAdmin) {
-    return redirect("/profile");
-  }
-
   const fetchCategories = () => {
     fetch("/api/categories")
       .then((res) => res.json())
@@ -37,6 +32,11 @@ export default function Categories() {
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  checkAdminFunc();
+  if (!isAdmin) {
+    return redirect("/profile");
+  }
 
   const handleCreateCategory = async (ev) => {
     ev.preventDefault();

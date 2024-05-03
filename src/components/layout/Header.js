@@ -22,9 +22,13 @@ export default function Header() {
       </Link>
       <nav className="flex gap-8 text-gray-500 items-center">
         <Link href={"/"}>Home</Link>
-        <Link href={""}>Menu</Link>
-        <Link href={""}>About</Link>
-        <Link href={""}>Contact</Link>
+        <Link href={"/menu"}>Menu</Link>
+        <Link href={"/#about"} scroll={true}>
+          About
+        </Link>
+        <Link href={"/#contact"} scroll={true}>
+          Contact
+        </Link>
       </nav>
       <nav className="flex gap-5 items-center">
         {status === "authenticated" ? (

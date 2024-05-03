@@ -1,11 +1,11 @@
 // Chaning the fonts
 
-import { Roboto } from "next/font/google";
-import "./globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import AppContext from "@/components/layout/AppContext";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import { Roboto } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import "./globals.css";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
@@ -16,11 +16,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <body className={roboto.className}>
         <main className="max-w-6xl mx-auto mx-auto-header p-4">
           <AppContext>
-            <Toaster/>
+            <Toaster />
             <Header />
             {children}
             <Footer />

@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import { Category } from "@/app/models/category";
+import mongoose from "mongoose";
 
 const checkAdminFunc = async () => {
   const res = await fetch("/api/profile");
@@ -8,7 +8,7 @@ const checkAdminFunc = async () => {
 };
 
 export async function POST(req) {
-  // mongoose.connect(process.env.CONNECTION_STRING);
+  mongoose.connect(process.env.CONNECTION_STRING);
   const { name } = await req.json();
   // let isAdmin = await checkAdminFunc();
   // if(!isAdmin){
